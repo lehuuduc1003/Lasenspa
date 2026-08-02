@@ -7,11 +7,11 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup build environment
         run: |
@@ -26,21 +26,25 @@ jobs:
             python3-wheel \
             build-essential \
             autoconf \
+            automake \
             libtool \
             pkg-config \
+            libffi-dev \
+            libssl-dev \
             zlib1g-dev
 
       - name: Install Buildozer
         run: |
           python3 -m pip install --upgrade pip
-          pip install buildozer cython==0.29.37
+          pip install buildozer==1.5.0
+          pip install cython==0.29.37
 
       - name: Build APK
         run: |
           buildozer -v android debug
 
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
-          name: UngDungCuaToi-APK
+          name: LASEN-SPA-APK
           path: bin/*.apk
